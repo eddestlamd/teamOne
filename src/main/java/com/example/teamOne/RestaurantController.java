@@ -48,14 +48,19 @@ public class RestaurantController {
     ShoppingCart shoppingCart= (ShoppingCart) session.getAttribute("shoppingCart");
         if (shoppingCart == null) {
             shoppingCart = new ShoppingCart();
+            shoppingCartRepository.save(shoppingCart);
             session.setAttribute("shoppingCart", shoppingCart);
         }
         Dish dish = dishRepository.findById(id).get();
         List<Dish> orders = shoppingCart.getOrder();
         orders.add(dish);
+
         shoppingCart.setOrder(orders);
         shoppingCartRepository.save(shoppingCart);
-        System.out.println(shoppingCartRepository.findAll());
+        dish.setShoppingCart(shoppingCart);
+        dishRepository.save(dish);
+        for(int i=0; i<orders.size();i++)
+        System.out.println(shoppingCart.getOrder().get(i).getName());
 
 
         return "redirect:/";
