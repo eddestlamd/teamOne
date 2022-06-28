@@ -16,9 +16,8 @@ public class RestaurantController {
 
     @GetMapping("/")
     public String index(Model model){
-        List<Dish> dish = dishRepository.findAll();
-
-
+        List<Dish> dishes = dishRepository.findAll();
+        model.addAttribute("dishes",dishes);
         return"index";
     }
 

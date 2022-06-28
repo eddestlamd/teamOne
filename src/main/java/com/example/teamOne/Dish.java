@@ -10,7 +10,7 @@ public class Dish {
     String name;
     int price;
     @ManyToOne
-    ShoppingCart shoppingCart;
+    ShoppingCart shoppingcart;
 
     public Dish() {
     }
@@ -19,6 +19,14 @@ public class Dish {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingcart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingcart = shoppingCart;
     }
 
     public Long getId() {

@@ -9,5 +9,15 @@
 </head>
 <body>
 <h1>HEllo</h1>
+<table style="text-align:left">
+    <tr>
+        <th>Dish</th>
+        <th>Price</th>
+    </tr>
+    <tr th:each="dish : ${dishes}">
+        <td th:text="${dish.name}"></td>
+        <td th:text="${dish.price}"></td>
+    </tr>
+</table>
 </body>
 </html>

@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name="shoppingcart")
 public class ShoppingCart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart")
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingcart")
     List<Dish> order = new ArrayList<>();
 
     public ShoppingCart() {
