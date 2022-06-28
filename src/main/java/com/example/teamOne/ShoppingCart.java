@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="shoppingcart")
 public class ShoppingCart {
 
     @Id
@@ -38,5 +37,13 @@ public class ShoppingCart {
 
     public void setOrder(List<Dish> order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{" +
+
+                ", order=" + order.get(0)+
+                '}';
     }
 }
