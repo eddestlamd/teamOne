@@ -1,11 +1,47 @@
 package com.example.teamOne;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Dish {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String dish;
+    String name;
+    int price;
+    @ManyToOne
+    ShoppingCart shoppingCart;
+
+    public Dish() {
+    }
+
+    public Dish(Long id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }
