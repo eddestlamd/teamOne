@@ -9,6 +9,7 @@ public class Dish {
     Long id;
     String name;
     int price;
+    String url;
     @ManyToOne
     ShoppingCart shoppingcart;
 
@@ -51,5 +52,13 @@ public class Dish {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
