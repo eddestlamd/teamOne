@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RestaurantController {
@@ -21,11 +22,47 @@ public class RestaurantController {
 
 
     @GetMapping("/")
-    public String index(Model model){
+    public String index(Model model, HttpSession session){
         List<Dish> dishes = dishRepository.findAll();
         model.addAttribute("dishes",dishes);
+        ShoppingCart shoppingCart= (ShoppingCart) session.getAttribute("shoppingCart");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+            shoppingCartRepository.save(shoppingCart);
+            session.setAttribute("shoppingCart", shoppingCart);
+        }
+
         return"index";
     }
+
+
+
+    @PostMapping("/AddToCart1/{id}")
+    public String addDish1(@PathVariable Long id, HttpSession session){
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
+        Dish dish = dishRepository.findById(id).get();
+        List<Dish> orders = shoppingCart.getOrder();
+        orders.add(dish);
+
+        shoppingCart.setOrder(orders);
+        shoppingCartRepository.save(shoppingCart);
+        dish.setShoppingCart(shoppingCart);
+        dishRepository.save(dish);
+
+
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/cart/{id}")
+    public String cart(Model model, @PathVariable Long id) {
+        ShoppingCart cart = shoppingCartRepository.findById(id).get();
+        model.addAttribute(cart);
+        return "cart";
+    }
+
+
+}
 
 //    @PostMapping("/AddToCart/{id}")
 //    public String addDish( @ModelAttribute ShoppingCart shoppingCart,@PathVariable Long id){
@@ -41,30 +78,3 @@ public class RestaurantController {
 //
 //       return "redirect:/";
 //    }
-
-
-    @PostMapping("/AddToCart1/{id}")
-    public String addDish1(HttpSession session, @PathVariable Long id){
-    ShoppingCart shoppingCart= (ShoppingCart) session.getAttribute("shoppingCart");
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-            shoppingCartRepository.save(shoppingCart);
-            session.setAttribute("shoppingCart", shoppingCart);
-        }
-        Dish dish = dishRepository.findById(id).get();
-        List<Dish> orders = shoppingCart.getOrder();
-        orders.add(dish);
-
-        shoppingCart.setOrder(orders);
-        shoppingCartRepository.save(shoppingCart);
-        dish.setShoppingCart(shoppingCart);
-        dishRepository.save(dish);
-        for(int i=0; i<orders.size();i++)
-        System.out.println(shoppingCart.getOrder().get(i).getName());
-
-
-        return "redirect:/";
-    }
-
-
-}
