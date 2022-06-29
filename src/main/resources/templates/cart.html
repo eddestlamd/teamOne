@@ -25,6 +25,23 @@
   </tr>
 </table>
 
+
+
+  <td>Total sum:</td>
+  <td th:text="${#aggregates.sum(dishes.![price])}">
+  </td>
+<td>
+<form th:action="'/order/'" th:method="GET">
+<button type="submit" >Make Order </button>
+
+</form>
+
+  <form th:action="'/'" th:method="GET">
+    <button type="submit" >Back to menu </button>
+  </form>
+</td>
+
+
 </body>
 </html>
 

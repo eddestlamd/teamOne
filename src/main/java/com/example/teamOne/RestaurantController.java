@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,16 @@ public class RestaurantController {
         return "cart";
     }
 
+
+    @GetMapping("/order")
+    public String placeOrder(HttpSession session, HttpServletResponse res){
+        session.removeAttribute("shoppingCart"); // this would be an ok solution
+        session.invalidate(); // you could also invalidate the whole session, a new session will be created the next request
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        res.addCookie(cookie);
+        return "redirect:/";
+    }
 
 }
 
