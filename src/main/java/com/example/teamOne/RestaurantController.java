@@ -22,23 +22,22 @@ public class RestaurantController {
 
 
     @GetMapping("/")
-    public String index(Model model, HttpSession session){
+    public String index(Model model, HttpSession session) {
         List<Dish> dishes = dishRepository.findAll();
-        model.addAttribute("dishes",dishes);
-        ShoppingCart shoppingCart= (ShoppingCart) session.getAttribute("shoppingCart");
+        model.addAttribute("dishes", dishes);
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         if (shoppingCart == null) {
             shoppingCart = new ShoppingCart();
             shoppingCartRepository.save(shoppingCart);
             session.setAttribute("shoppingCart", shoppingCart);
         }
 
-        return"index";
+        return "index";
     }
 
 
-
     @PostMapping("/AddToCart1/{id}")
-    public String addDish1(@PathVariable Long id, HttpSession session){
+    public String addDish1(@PathVariable Long id, HttpSession session) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         Dish dish = dishRepository.findById(id).get();
         List<Dish> orders = shoppingCart.getOrder();
@@ -54,10 +53,20 @@ public class RestaurantController {
     }
 
 
-    @GetMapping("/cart/{id}")
-    public String cart(Model model, @PathVariable Long id) {
-        ShoppingCart cart = shoppingCartRepository.findById(id).get();
-        model.addAttribute(cart);
+    @GetMapping("/cart/")
+    public String cart(Model model, HttpSession session) {
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
+        List<Dish> dishes = shoppingCart.getOrder();
+        model.addAttribute("dishes", dishes);
+        return "cart";
+    }
+
+    @GetMapping("/DeleteFromCart/{index}")
+    public String deleteDish(Model model, @PathVariable int index, HttpSession session) {
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
+        List<Dish> dishes = shoppingCart.getOrder();
+        dishes.remove(index);
+        model.addAttribute("dishes", dishes);
         return "cart";
     }
 
