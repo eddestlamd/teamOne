@@ -1,3 +1,9 @@
 body{
 background-color: yellow;
 }
+
+.container{
+flex-direction:row !important;
+justify-content:center !important;
+display:flex !important;
+}
