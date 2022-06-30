@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,13 +41,22 @@ public class RestaurantController {
     public String addDish1(@PathVariable Long id, HttpSession session) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         Dish dish = dishRepository.findById(id).get();
+
         List<Dish> orders = shoppingCart.getOrder();
+
         orders.add(dish);
 
-        shoppingCart.setOrder(orders);
-        shoppingCartRepository.save(shoppingCart);
         dish.setShoppingCart(shoppingCart);
+
+
+        shoppingCart.setOrder(orders);
+
+        shoppingCartRepository.save(shoppingCart);
+
+        dish.setAmount(dish.getAmount()+1);
         dishRepository.save(dish);
+
+
 
 
         return "redirect:/";
@@ -73,16 +81,22 @@ public class RestaurantController {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         List<Dish> dishes = shoppingCart.getOrder();
         Dish dish = dishes.get(index);
-        dish.setShoppingCart(null);
+       //Optional<Dish> dish1= dishRepository.findById(dish.getId());
+        Dish dish1 = dishRepository.findById(dish.getId()).get();
+        int number = dish1.getAmount();
+        dish.setAmount(number-1);
+        if (dish.getAmount() == 0)
+            dish.setShoppingCart(null);
         dishRepository.save(dish);
         dishes.remove(index);
         model.addAttribute("dishes", dishes);
+
         return "cart";
     }
 
 
     @GetMapping("/order")
-    public String placeOrder(HttpSession session, HttpServletResponse res){
+    public String placeOrder(HttpSession session, HttpServletResponse res) {
         session.removeAttribute("shoppingCart"); // this would be an ok solution
         session.invalidate(); // you could also invalidate the whole session, a new session will be created the next request
         Cookie cookie = new Cookie("JSESSIONID", "");
@@ -90,7 +104,6 @@ public class RestaurantController {
         res.addCookie(cookie);
         return "done";
     }
-
 
 
 }
