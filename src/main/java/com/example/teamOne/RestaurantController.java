@@ -43,20 +43,14 @@ public class RestaurantController {
         Dish dish = dishRepository.findById(id).get();
 
         List<Dish> orders = shoppingCart.getOrder();
-
         orders.add(dish);
-
         dish.setShoppingCart(shoppingCart);
 
-
         shoppingCart.setOrder(orders);
-
         shoppingCartRepository.save(shoppingCart);
 
-        dish.setAmount(dish.getAmount()+1);
+        dish.setAmount(dish.getAmount() + 1);
         dishRepository.save(dish);
-
-
 
 
         return "redirect:/";
@@ -80,11 +74,9 @@ public class RestaurantController {
     public String deleteDish(Model model, @PathVariable int index, HttpSession session) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         List<Dish> dishes = shoppingCart.getOrder();
-        Dish dish = dishes.get(index);
-       //Optional<Dish> dish1= dishRepository.findById(dish.getId());
-        Dish dish1 = dishRepository.findById(dish.getId()).get();
-        int number = dish1.getAmount();
-        dish.setAmount(number-1);
+
+        Dish dish = dishRepository.findById(dishes.get(index).getId()).get();
+        dish.setAmount(dish.getAmount() - 1);
         if (dish.getAmount() == 0)
             dish.setShoppingCart(null);
         dishRepository.save(dish);
