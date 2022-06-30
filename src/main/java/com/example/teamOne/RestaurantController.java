@@ -72,6 +72,9 @@ public class RestaurantController {
     public String deleteDish(Model model, @PathVariable int index, HttpSession session) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
         List<Dish> dishes = shoppingCart.getOrder();
+        Dish dish = dishes.get(index);
+        dish.setShoppingCart(null);
+        dishRepository.save(dish);
         dishes.remove(index);
         model.addAttribute("dishes", dishes);
         return "cart";
