@@ -27,7 +27,7 @@ public class JunitTest {
 
     @Test
     public void testSaveToRepositoryMethod(){
-        Dish dish = new Dish(null,"Pizza",500);
+        Dish dish = new Dish(null,"Pizza",500,"x");
         dishRepository.save(dish);
 
         Assertions.assertEquals("Pizza",dish.getName());
