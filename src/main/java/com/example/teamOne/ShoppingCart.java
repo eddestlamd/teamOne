@@ -43,7 +43,7 @@ public class ShoppingCart {
     public String toString() {
         return "ShoppingCart{" +
 
-                ", order=" + order.get(0)+
+                ", order=" +
                 '}';
     }
 }
