@@ -55,9 +55,14 @@ public class RestaurantController {
     }
 
 
-    @GetMapping("/cart/")
+    @GetMapping("/cart")
     public String cart(Model model, HttpSession session) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("shoppingCart");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+            shoppingCartRepository.save(shoppingCart);
+            session.setAttribute("shoppingCart", shoppingCart);
+        }
         List<Dish> dishes = shoppingCart.getOrder();
         model.addAttribute("dishes", dishes);
         return "cart";
