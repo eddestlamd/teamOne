@@ -16,10 +16,11 @@ public class Dish {
     public Dish() {
     }
 
-    public Dish(Long id, String name, int price) {
+    public Dish(Long id, String name, int price, String url) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.url = url;
     }
 
     public ShoppingCart getShoppingCart() {

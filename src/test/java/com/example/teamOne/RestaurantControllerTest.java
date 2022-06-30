@@ -19,6 +19,7 @@ class RestaurantControllerTest {
     private static final Long DISH_ID = 1L;
     private static final String DISH_NAME = "Margerita";
     private static final int DISH_PRICE = 99;
+    private static final String DISH_URL= "https://www.dominos.nl/ManagedAssets/NL/product/PMAR/NL_PMAR_all_hero_9398.jpg?v-2135085084";
 
     @Autowired
     DishRepository dishRepository;
@@ -57,20 +58,26 @@ class RestaurantControllerTest {
         //GIVEN
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(SHOPPING_CART_ID);
-        Dish expectedDish = new Dish(DISH_ID, DISH_NAME, DISH_PRICE);
+        Dish dish = dishRepository.findById(DISH_ID).get();
         List<Dish> expectedOrders = new ArrayList<>();
-        expectedOrders.add(expectedDish);
+        expectedOrders.add(dish);
         shoppingCart.setOrder(expectedOrders);
 
         //WHEN
-        Dish actualDish = dishRepository.findById(DISH_ID).get();
-        ShoppingCart expectedShoppingCart = shoppingCartRepository.save(shoppingCart);
+        ShoppingCart cart = shoppingCartRepository.save(shoppingCart);
+        List<Dish> actualOrders = cart.getOrder();
 
         //THEN
-        assertEquals(expectedOrders, expectedShoppingCart.getOrder());
-        assertEquals(expectedDish.getName(), actualDish.getName());
-        
+        assertEquals(expectedOrders.get(0).getName(), actualOrders.get(0).getName());
+        assertEquals(expectedOrders.get(0).getPrice(), actualOrders.get(0).getPrice());
+        assertEquals(expectedOrders.get(0).getId(), actualOrders.get(0).getId());
+
+
+
+
     }
+
+
 
     @Test
     void cart() {
