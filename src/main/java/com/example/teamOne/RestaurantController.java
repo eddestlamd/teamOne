@@ -85,8 +85,10 @@ public class RestaurantController {
         Cookie cookie = new Cookie("JSESSIONID", "");
         cookie.setMaxAge(0);
         res.addCookie(cookie);
-        return "redirect:/";
+        return "done";
     }
+
+
 
 }
 

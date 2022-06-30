@@ -29,37 +29,47 @@
         </div>
     </div>
 </nav>
-<div class="container">
-    <div class="row vh-100">
-        <div class="col-12">
-            <div th:each="dish : ${dishes}">
-                <div class="card" style="width: 30rem; margin: 2px;">
-                    <div class="card-header bg-danger">
 
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${dish.name}">Special title treatment</h5>
-                        <p class="card-text" th:text="${dish.price} + 'kr'">With supporting text below as a natural
-                            lead-in to additional content.</p>
-                        <form th:action="'/DeleteFromCart/'+ ${dishStat.index}" th:method="GET">
+<section>
+    <div class="container">
+        <div class="row vh-100">
+            <div class="col-md-6">
+                <div th:each="dish : ${dishes}">
+                    <div class="card" style="width: 30rem; margin: 2px;">
+                        <div class="card-header bg-danger">
 
-                            <button type="submit" class="btn btn-danger float-end">Delete Dish</button>
-                        </form>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${dish.name}">Special title treatment</h5>
+                            <p class="card-text" th:text="${dish.price} + 'kr'">With supporting text below as a natural
+                                lead-in to additional content.</p>
+                            <form th:action="'/DeleteFromCart/'+ ${dishStat.index}" th:method="GET">
+
+                                <button type="submit" class="btn btn-danger float-end">Delete Dish</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<td>Total sum:</td>
-<td th:text="${#aggregates.sum(dishes.![price])}">
-</td>
-<td>
-    <form th:action="'/order/'" th:method="GET">
-        <button type="submit">Make Order</button>
-    </form>
-</td>
+
+        <div class="col-md-6">
+            <div class="card" style="margin-left: 20px;">
+                <div class="card-header bg-danger">
+
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Total sum: ' + ${#aggregates.sum(dishes.![price])}">aggregated price</h5>
+                    <p class="card-text"></p>
+                    <form th:action="'/order/'" th:method="GET">
+                        <button type="submit" class="btn btn-danger float-end">Make order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>

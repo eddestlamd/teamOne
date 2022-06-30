@@ -3,7 +3,17 @@ background-color: yellow;
 }
 
 .container{
-flex-direction:row !important;
-justify-content:center !important;
-display:flex !important;
+flex-direction:row;
+justify-content:center;
+display:flex;
 }
+
+.section{
+text-align: center !important;
+}
+
+.container{
+vertical-align: middle !important;
+}
+
+
