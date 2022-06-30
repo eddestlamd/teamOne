@@ -1,14 +1,11 @@
 package com.example.teamOne;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +16,6 @@ class RestaurantControllerTest {
     private static final Long DISH_ID = 1L;
     private static final String DISH_NAME = "Margerita";
     private static final int DISH_PRICE = 99;
-    private static final String DISH_URL= "https://www.dominos.nl/ManagedAssets/NL/product/PMAR/NL_PMAR_all_hero_9398.jpg?v-2135085084";
 
     @Autowired
     DishRepository dishRepository;
@@ -32,7 +28,6 @@ class RestaurantControllerTest {
         //GIVEN
         ShoppingCart expectedShoppingCart = new ShoppingCart();
         expectedShoppingCart.setId(SHOPPING_CART_ID);
-
         List<Dish> expectedDishes = new ArrayList<>();
         Dish dish = new Dish();
         dish.setShoppingCart(expectedShoppingCart);
@@ -50,7 +45,6 @@ class RestaurantControllerTest {
         assertEquals(DISH_ID, actualDishes.get(0).getId());
         assertEquals(DISH_NAME, actualDishes.get(0).getName());
         assertEquals(DISH_PRICE, actualDishes.get(0).getPrice());
-
     }
 
     @Test
@@ -71,10 +65,6 @@ class RestaurantControllerTest {
         assertEquals(expectedOrders.get(0).getName(), actualOrders.get(0).getName());
         assertEquals(expectedOrders.get(0).getPrice(), actualOrders.get(0).getPrice());
         assertEquals(expectedOrders.get(0).getId(), actualOrders.get(0).getId());
-
-
-
-
     }
 
 
