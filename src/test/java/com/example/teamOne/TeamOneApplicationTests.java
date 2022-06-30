@@ -43,4 +43,14 @@ class TeamOneApplicationTests {
 				.andExpect(MockMvcResultMatchers.content().string(not(containsString("Ristorante Pizzeria"))));
 	}
 
+	@Test
+	public void testDone() throws Exception {
+		mvc.perform(
+						MockMvcRequestBuilders.get("/order")
+				)
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.content().string(containsString("Thank you for your order")))
+				.andExpect(MockMvcResultMatchers.content().string(not(containsString("Ristorante Pizzeria"))));
+	}
+
 }
